@@ -1,69 +1,89 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import SearchInput from './components/SearchInput';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={StyleSheet.absoluteFillObject}
-        initialRegion={{
-          latitude: 48.866667,
-          longitude: 2.333333,
-          latitudeDelta: 0.2222,
-          longitudeDelta: 0.0421,
-        }}
-        customMapStyle={[
-          {
-            featureType: 'poi',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }],
-          },
-          {
-            featureType: 'transit.station',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }],
-          },
-        ]}
-      >
-        <Marker coordinate={{ latitude: 48.858844, longitude: 2.294351 }} title="Eiffel Tower" />
-        <Marker coordinate={{ latitude: 48.860611, longitude: 2.337644 }} title="Louvre Museum" />
-        <Marker coordinate={{ latitude: 48.852968, longitude: 2.349902 }} title="Notre-Dame Cathedral" />
-        <Marker coordinate={{ latitude: 48.886707, longitude: 2.343104 }} title="Sacré-Cœur" />
-        <Marker coordinate={{ latitude: 48.873792, longitude: 2.295028 }} title="Arc de Triomphe" />
-        <Marker coordinate={{ latitude: 48.860642, longitude: 2.352245 }} title="Centre Pompidou" />
-        <Marker coordinate={{ latitude: 48.863788, longitude: 2.327758 }} title="Musée d'Orsay" />
-        <Marker coordinate={{ latitude: 48.865633, longitude: 2.321236 }} title="Place de la Concorde" />
-        <Marker coordinate={{ latitude: 48.853, longitude: 2.3499 }} title="Sainte-Chapelle" />
-        <Marker coordinate={{ latitude: 48.860294, longitude: 2.327556 }} title="Tuileries Garden" />
-      </MapView>
+import getImageForWeather from './utils/getImageForWeather';
 
-      <View style={styles.overlay}>
-        <Text style={styles.overlayText}>Open up App.tsx to start working on your app!</Text>
-      </View>
+export default class App extends React.Component {
+  render() {
+    return (
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <ImageBackground
+          source={getImageForWeather('Clear')}
+          style={styles.imageContainer}
+          imageStyle={styles.image}
+        >
+          <Text style={[styles.textStyle, styles.largeText]}>Ciudad de Mexico, MX</Text>
+          <Text style={[styles.smallText, styles.textStyle]}>Soleado y claro</Text>
 
-      <StatusBar style="auto" />
-    </View>
-  );
+          <Text style={[styles.textStyle, styles.mediumText]}>31°</Text>
+
+          <SearchInput placeholder="Search a city" />
+        </ImageBackground>
+      </KeyboardAvoidingView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#777777',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  overlay: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-    right: 20,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    padding: 12,
-    borderRadius: 8,
-  },
-  overlayText: {
+  textStyle: {
     textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '600',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'AvenirNext-Regular',
+      },
+      android: {
+        fontFamily: 'Roboto',
+      },
+    }),
+  },
+
+  largeText: {
+    fontSize: 44,
+  },
+
+  mediumText: {
+    fontSize: 34,
+  },
+
+  smallText: {
+    fontSize: 24,
+  },
+
+  textInput: {
+    backgroundColor: '#666',
+    color: 'white',
+    height: 40,
+    width: 100 * 4,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    alignSelf: 'center',
+  },
+  imageContainer: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    resizeMode: 'cover',
   },
 });

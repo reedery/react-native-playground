@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+*.bundle.js
+
+# iOS
+ios/build/
+ios/Pods/
+
+# Android
+android/app/build/
+android/build/
+android/.gradle/
+
+# Expo
+.expo/
+
+# Metro
+.metro-health-check*
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+
+# Assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico 
